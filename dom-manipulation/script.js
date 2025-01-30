@@ -27,6 +27,28 @@ const showRandomQuote = ()=> {
 
 }
 
+const addQuote = () => {
+  // get the value for text from the input field
+  const newQuoteText = document.getElementById('newQuoteText').value;
+
+  // get the value for category from the input field
+  const newQuoteCategory = document.getElementById('newQuoteCategory').value;
+
+// check if the two input fields are filled
+if (newQuoteText && newQuoteCategory) {
+  
+  // add new quote to the array
+  quotes.push({ text:newQuoteText , category: newQuoteCategory })
+
+  document.getElementById('newQuoteText').value =''
+  document.getElementById('newQuoteCategory').value=''
+  
+  // success message
+  alert('New quote added successfully')
+} else{
+  alert('Please fill in both the quote and the category.')
+}
+}
 
 showBtn.addEventListener('click', showRandomQuote)
 
