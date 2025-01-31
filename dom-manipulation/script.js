@@ -27,7 +27,37 @@ const showRandomQuote = ()=> {
 
 }
 
-const createAddQuoteForm = () => {
+
+
+const createAddQuoteForm =()=>{
+  const formContainer = document.createElement('div');
+  // Create the input fields and button dynamically
+  const quoteInput = document.createElement('input');
+  quoteInput.id = 'newQuoteText';
+  quoteInput.type = 'text';
+  quoteInput.placeholder = 'Enter a new quote';
+
+  const categoryInput = document.createElement('input');
+  categoryInput.id = 'newQuoteCategory';
+  categoryInput.type = 'text';
+  categoryInput.placeholder = 'Enter quote category';
+
+  const addButton = document.createElement('button');
+  addButton.textContent = 'Add Quote';
+  addButton.onclick = addQuote;  // Bind the addQuote function to the button click
+
+  // Append the elements to the form container
+  formContainer.appendChild(quoteInput);
+  formContainer.appendChild(categoryInput);
+  formContainer.appendChild(addButton);
+
+  const form = document.getElementById('form')
+  // Append the form container to the body or any specific container
+  form.appendChild(formContainer);
+}
+
+
+const addQuote = () => {
   // get the value for text from the input field
   const newQuoteText = document.getElementById('newQuoteText').value;
 
