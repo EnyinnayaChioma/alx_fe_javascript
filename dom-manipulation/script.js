@@ -27,7 +27,7 @@ const showRandomQuote = ()=> {
 
 }
 
-const addQuote = () => {
+const createAddQuoteForm = () => {
   // get the value for text from the input field
   const newQuoteText = document.getElementById('newQuoteText').value;
 
