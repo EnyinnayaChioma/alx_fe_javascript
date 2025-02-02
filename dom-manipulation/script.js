@@ -230,7 +230,8 @@ const syncQuotes = async () => {
 // Notify the user about conflict resolution
 const showConflictResolutionNotification = () => {
   const notification = document.createElement('div');
-  notification.textContent = 'A conflict was resolved, and the data has been updated.';
+  notification.textContent = "Quotes synced with server!";
+  // notification.textContent = 'A conflict was resolved, and the data has been updated.';
   notification.style.backgroundColor = 'yellow';
   notification.style.padding = '10px';
   notification.style.border = '1px solid #ccc';
