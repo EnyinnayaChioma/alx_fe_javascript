@@ -9,6 +9,72 @@ const quotes = JSON.parse(localStorage.getItem('quotes')) || [
 
 
 
+
+
+// Simulate the server endpoint URL
+const serverUrl = 'https://jsonplaceholder.typicode.com/posts';
+
+// Mock API call to simulate fetching data from the server
+const fetchQuotesFromServer = async () => {
+  try {
+    const response = await fetch(serverUrl);
+    const data = await response.json();
+    return data.map(post => ({
+      text: post.title,  // We are using post title as the quote text
+      category: "General" // Placeholder category, this could be enhanced further
+    }));
+  } catch (error) {
+    console.error('Error fetching from the server:', error);
+    return [];  // Return an empty array if there's an error
+  }
+}
+
+// Sync quotes from the server to local storage
+const syncWithServer = async () => {
+  const serverQuotes = await fetchQuotesFromServer();
+
+  if (serverQuotes.length === 0) {
+    return;
+  }
+
+  // Compare local quotes with server quotes and resolve conflicts
+  const newQuotes = [];
+  serverQuotes.forEach(serverQuote => {
+    const existingQuote = quotes.find(quote => quote.text === serverQuote.text);
+    
+    if (!existingQuote) {
+      // If the quote does not exist locally, add it
+      newQuotes.push(serverQuote);
+    } else if (existingQuote.category !== serverQuote.category) {
+      // If there's a conflict in the category, we resolve it by prioritizing the server's data
+      existingQuote.category = serverQuote.category;
+    }
+  });
+
+  // Add new quotes to the local array and save it to localStorage
+  quotes.push(...newQuotes);
+  saveQuotesToLocalStorage();
+  
+  // Inform the user that there are updates
+  if (newQuotes.length > 0) {
+    alert('New quotes from the server have been added.');
+  }
+  if (newQuotes.length === 0 && serverQuotes.length > 0) {
+    alert('No new quotes were added, but some categories were updated.');
+  }
+};
+
+// Periodically sync data with the server every 10 minutes (600000ms)
+setInterval(syncWithServer, 600000);
+
+// Call the sync function once when the page loads
+syncWithServer();
+
+
+
+
+
+
 // function to saveQuote to Local storage
 function saveQuotesToLocalStorage() {
   localStorage.setItem('quotes', JSON.stringify(quotes));
@@ -28,6 +94,7 @@ function displayLastViewedQuote() {
       <p><strong>${parsedQuote.text}</strong></p>
       <p><em>Category: ${parsedQuote.category}</em></p>
     `;
+
   } else {
     showRandomQuote();  // Show a random quote if no last viewed quote exists
   }
@@ -144,7 +211,7 @@ if (newQuoteText && newQuoteCategory) {
 
 
 // Create and populate the category filter dropdown dynamically
-function populateCategories() {
+const populateCategories = () => {
   const categories = Array.from(new Set(quotes.map(quote => quote.category))); // Get unique categories
   const categoryFilter = document.getElementById('categoryFilter');
 
@@ -168,7 +235,7 @@ function populateCategories() {
 }
 
 // Filter quotes based on the selected category
-function filterQuotes() {
+const filterQuotes = () => {
   const selectedCategory = document.getElementById('categoryFilter').value;
   const filteredQuotes = selectedCategory === 'all' 
     ? quotes 
@@ -181,7 +248,7 @@ function filterQuotes() {
 }
 
 // Function to display quotes
-function displayQuotes(filteredQuotes) {
+const displayQuotes = (filteredQuotes) => {
   const displayArea = document.getElementById('quoteDisplay');
   displayArea.innerHTML = ''; // Clear existing quotes
 
