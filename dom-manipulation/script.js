@@ -182,8 +182,10 @@ const fetchQuotesFromServer = async () => {
     const response = await fetch(serverUrl, {
       method: "POST",
       headers: {
-        Accept: 'application/json'
-      }
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ key: 'value' })
+
     });
     const data = await response.json();
     return data.map(post => ({
