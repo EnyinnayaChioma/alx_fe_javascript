@@ -199,7 +199,7 @@ const fetchQuotesFromServer = async () => {
 };
 
 // Sync with server and resolve conflicts
-const syncWithServer = async () => {
+const syncQuotes = async () => {
   const serverQuotes = await fetchQuotesFromServer();
 
   if (serverQuotes.length === 0) {
@@ -243,7 +243,7 @@ const showConflictResolutionNotification = () => {
 };
 
 // Periodically sync with the server every 10 minutes (600000ms)
-setInterval(syncWithServer, 600000);
+setInterval(syncQuotes, 600000);
 
 // On page load, display random quote and populate categories
 document.addEventListener('DOMContentLoaded', () => {
@@ -251,5 +251,5 @@ document.addEventListener('DOMContentLoaded', () => {
   showRandomQuote();
   populateCategories();
   displayLastViewedQuote();
-  syncWithServer();  // Sync data on page load
+  syncQuotes();  // Sync data on page load
 });
