@@ -19,6 +19,17 @@
   <!-- Import File Input -->
    <label for="importFile" id="importFile" style="display:block ">Import file </label>
   <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+
+
+
+
+   <!-- Category Filter Dropdown -->
+   <select id="categoryFilter" onchange="filterQuotes()">
+    <option value="all">All Categories</option>
+    <!-- Dynamically populated categories will go here -->
+  </select>
+
+  
   <!-- show new quote -->
   <button id="newQuote">Show New Quote</button>
 
